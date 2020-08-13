@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+{% block content %}
+{% if empty %}
+{% else %}
+<div class="row">
+  <div class="col-lg-4">
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Pair Plot</h6>
+      </div>
+      <div class="card-body">
+        <p>This is a pair plot. A pair plot can tell you the distribution of data accross variables. From this plot, wou
+          will know the relationship among variables graphically </p>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-8 mb-4">
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Pair Plot</h6>
+      </div>
+      
+        <div id="myPair"></div>
+        <script>
+          var data = JSON.parse('{{ data | tojson }}');
+          var mark = JSON.parse('{{ mark | tojson }}');
+          var dat = [{
+            dimensions: data,
+            type: 'splom',
+            marker: mark
+          }];
+          var layout = {
+            height: 550,
+            width: 650,
+            margin: {
+              l: 80,
+              r: 0,
+              t:10,
+              b:100
+            }
+          }
+          Plotly.newPlot('myPair', dat, layout);
+        </script>
+      
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

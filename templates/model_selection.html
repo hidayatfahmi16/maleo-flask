@@ -1,0 +1,341 @@
+{% extends "layout.html" %}
+{% block content %}
+{% if empty %}
+{% else %}
+<div class="row">
+  <div class="col-lg-8 mb-4">
+    <div class="card shadow mb-7">
+      {% if kind=="ml1" %}
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Model Accuracy</h6>
+      </div>
+      <div class="card-body">
+        <h4 class="small font-weight-bold">Multi-layer Perceptron <span class="float-right">{{mlp}}%</span></h4>
+        <div class="progress mb-4">
+          <div class="progress-bar bg-danger" role="progressbar" style="width: {{mlp}}%" aria-valuenow="{{mlp}}"
+            aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <h4 class="small font-weight-bold">Random Forest <span class="float-right">{{randfor}}%</span></h4>
+        <div class="progress mb-4">
+          <div class="progress-bar bg-warning" role="progressbar" style="width: {{randfor}}%"
+            aria-valuenow="{{randfor}}" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <h4 class="small font-weight-bold">Gradient Boosting <span class="float-right">{{gboost}}%</span></h4>
+        <div class="progress mb-4">
+          <div class="progress-bar bg-warning" role="progressbar" style="width: {{gboost}}%" aria-valuenow="{{gboost}}"
+            aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <h4 class="small font-weight-bold">Ridge Regressor <span class="float-right">{{ridge}}%</span></h4>
+        <div class="progress mb-4">
+          <div class="progress-bar" role="progressbar" style="width: {{ridge}}%" aria-valuenow="{{ridge}}"
+            aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <h4 class="small font-weight-bold">Bayesian Ridge Regressor <span class="float-right">{{bayes}}%</span></h4>
+        <div class="progress mb-4">
+          <div class="progress-bar bg-info" role="progressbar" style="width: {{bayes}}%" aria-valuenow="{{bayes}}"
+            aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <h4 class="small font-weight-bold">Support Vector Machine <span class="float-right">{{svm}}%</span></h4>
+        <div class="progress mb-4">
+          <div class="progress-bar bg-danger" role="progressbar" style="width: {{svm}}%" aria-valuenow="{{svm}}"
+            aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <h4 class="small font-weight-bold">K-Nearest Neighbors <span class="float-right">{{knn}}%</span></h4>
+        <div class="progress mb-4">
+          <div class="progress-bar bg-warning" role="progressbar" style="width: {{knn}}%" aria-valuenow="{{knn}}"
+            aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <h4 class="small font-weight-bold">Decision Tree <span class="float-right">{{dec}}%</span></h4>
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" style="width: {{dec}}%" aria-valuenow="{{dec}}" aria-valuemin="0"
+            aria-valuemax="100"></div>
+        </div>
+      </div>
+      {% else %}
+      {% if kind=="ml2" %}
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Data Distribution</h6>
+      </div>
+      <div class="card-body">
+        <div id="myCluster"></div>
+        <script>
+          var data = JSON.parse('{{ data | tojson }}');
+          var mark = JSON.parse('{{ mark | tojson }}');
+          var dat = [{
+            dimensions: data,
+            type: 'splom',
+            marker: mark
+          }];
+          var layout = {
+            height: 675,
+            width: 675,
+            plot_bgcolor: 'rgba(240,240,240, 0.95)',
+            margin: {
+              l: 40,
+              r: 30,
+              t: 10,
+              b: 60
+            }
+          }
+          Plotly.newPlot('myCluster', dat, layout);
+        </script>
+      </div>
+      {% else %}
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Model Accuracy</h6>
+      </div>
+      <div class="card-body">
+        <h4 class="small font-weight-bold">K-Nearest Neighbors <span class="float-right">{{knn}}%</span></h4>
+        <div class="progress mb-4">
+          <div class="progress-bar bg-danger" role="progressbar" style="width: {{knn}}%" aria-valuenow="{{knn}}"
+            aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <h4 class="small font-weight-bold">Multi-layer Perceptron <span class="float-right">{{mlp}}%</span></h4>
+        <div class="progress mb-4">
+          <div class="progress-bar bg-warning" role="progressbar" style="width: {{mlp}}%" aria-valuenow="{{mlp}}"
+            aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <h4 class="small font-weight-bold">Decision Tree <span class="float-right">{{dec}}%</span></h4>
+        <div class="progress mb-4">
+          <div class="progress-bar" role="progressbar" style="width: {{dec}}%" aria-valuenow="{{dec}}" aria-valuemin="0"
+            aria-valuemax="100"></div>
+        </div>
+        <h4 class="small font-weight-bold">Support Vector Machine <span class="float-right">{{svm}}%</span></h4>
+        <div class="progress mb-4">
+          <div class="progress-bar bg-info" role="progressbar" style="width: {{svm}}%" aria-valuenow="{{svm}}"
+            aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <h4 class="small font-weight-bold">Linear Discriminant Analysis <span class="float-right">{{lda}}%</span></h4>
+        <div class="progress mb-4">
+          <div class="progress-bar bg-danger" role="progressbar" style="width: {{lda}}%" aria-valuenow="{{lda}}"
+            aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <h4 class="small font-weight-bold">Logistic Regression <span class="float-right">{{lr}}%</span></h4>
+        <div class="progress mb-4">
+          <div class="progress-bar bg-warning" role="progressbar" style="width: {{lr}}%" aria-valuenow="{{lr}}"
+            aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <h4 class="small font-weight-bold">Ridge Classifier <span class="float-right">{{ridge}}%</span></h4>
+        <div class="progress mb-4">
+          <div class="progress-bar" role="progressbar" style="width: {{ridge}}%" aria-valuenow="{{ridge}}"
+            aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <h4 class="small font-weight-bold">Gradient Boosting <span class="float-right">{{gboost}}%</span></h4>
+        <div class="progress mb-4">
+          <div class="progress-bar bg-info" role="progressbar" style="width: {{gboost}}%" aria-valuenow="{{gboost}}"
+            aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <h4 class="small font-weight-bold">Gaussian Naive Bayes <span class="float-right">{{naivebayes}}%</span></h4>
+        <div class="progress">
+          <div class="progress-bar bg-danger" role="progressbar" style="width: {{naivebayes}}%"
+            aria-valuenow="{{naivebayes}}" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+      </div>
+      {% endif %}
+      {% endif %}
+    </div>
+  </div>
+  <div class="col-lg-4 mb-4">
+    <div class="card shadow mb-4">
+      {% if kind=="ml1" %}
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Select Model</h6>
+      </div>
+      <div class="card-body">
+        <form action="/model" method="POST" enctype="multipart/form-data">
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="mlpreg"
+              checked>
+            <label class="form-check-label" for="exampleRadios1">
+              Multi-layer Perceptron
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="randreg">
+            <label class="form-check-label" for="exampleRadios2">
+              Random Forest
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios8" value="gradreg"
+              checked>
+            <label class="form-check-label" for="exampleRadios8">
+              Gradient Boosting
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="ridgereg">
+            <label class="form-check-label" for="exampleRadios3">
+              Ridge Regression
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios4" value="bayesreg">
+            <label class="form-check-label" for="exampleRadios4">
+              Bayesian Ridge Regression
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios5" value="svmreg">
+            <label class="form-check-label" for="exampleRadios5">
+              Support Vector Machine
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios6" value="knnreg">
+            <label class="form-check-label" for="exampleRadios6">
+              K-Nearest Neighbors
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios7" value="decreg">
+            <label class="form-check-label" for="exampleRadios7">
+              Decision Tree
+            </label>
+          </div>
+          <hr>
+          <button type="submit" id="btnFetch" class="btn btn-primary">Proceed</button>
+          <div id="spinnerload" class="spinner-border text-success" role="status" style="display: none;">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </form>
+      </div>
+      {% else %}
+      {% if kind=="ml2" %}
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Select Cluster Number</h6>
+      </div>
+      <div class="card-body">
+        <form method="POST" action="/var">
+          <div class="form-group">
+            <label for="formGroupExampleInput">Observe Cluster</label>
+            <input type="text" class="form-control" id="formGroupExampleInput" name="cluster"
+              placeholder="Specify K value...">
+          </div>
+          <button type="submit" id="btnFetch" class="btn btn-secondary">Observe</button>
+          <div id="spinnerload" class="spinner-border text-secondary" role="status" style="display: none;">
+            <span class="sr-only">Loading...</span>
+          </div>
+          <hr>
+        </form>
+        <form method="POST" , action="/model">
+          <button type="submit" id="btnFetch2" class="btn btn-primary">Proceed</button>
+          <div id="spinnerload2" class="spinner-border text-success" role="status" style="display: none;">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </form>
+      </div>
+
+
+      {%else%}
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Select Model</h6>
+      </div>
+      <div class="card-body">
+        <form action="/model" method="POST" enctype="multipart/form-data">
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="knnclf"
+              checked>
+            <label class="form-check-label" for="exampleRadios1">
+              K-Nearest Neighbors
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="mlpclf">
+            <label class="form-check-label" for="exampleRadios2">
+              Multi-layer Perceptron'
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="decclf">
+            <label class="form-check-label" for="exampleRadios3">
+              Decision Tree
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios4" value="svmclf">
+            <label class="form-check-label" for="exampleRadios4">
+              Support Vector Machine
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios5" value="ldaclf">
+            <label class="form-check-label" for="exampleRadios5">
+              Linear Discriminant Analysis
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios6" value="lrclf">
+            <label class="form-check-label" for="exampleRadios6">
+              Logistic Regression
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios7" value="ridgeclf">
+            <label class="form-check-label" for="exampleRadios7">
+              Ridge Classifier
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios8" value="gradclf">
+            <label class="form-check-label" for="exampleRadios8">
+              Gradient Boosting
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios9" value="nbclf">
+            <label class="form-check-label" for="exampleRadios9">
+              Gaussian Naive Bayes
+            </label>
+          </div>
+          <hr>
+          <button type="submit" id="btnFetch" class="btn btn-primary">Proceed</button>
+          <div id="spinnerload" class="spinner-border text-success" role="status" style="display: none;">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </form>
+      </div>
+      {% endif %}
+      {% endif %}
+
+    </div>
+    {% if kind=="ml2" %}
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Elbow curve</h6>
+      </div>
+
+      <div class="card-body">
+        <div id="elbowchart"></div>
+        <script>
+          var ydata = JSON.parse('{{ elbow | tojson }}');
+          var trace1 = {
+            x: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+            y: ydata,
+            type: 'scatter',
+            name: 'cluster'
+          };
+
+          var data = [trace1];
+
+          var layout = {
+            height:300,
+            width:300,
+            margin: {
+              l: 10,
+              r: 0,
+              t:0,
+              b:20
+            }
+          }
+
+          Plotly.newPlot('elbowchart', data, layout);
+        </script>
+      </div>
+    </div>
+    {% else %}
+    {% endif %}
+  </div>
+</div>
+{% endif %}
+{% endblock %}

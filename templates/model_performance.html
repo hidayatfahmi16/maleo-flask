@@ -1,0 +1,253 @@
+{% extends "layout.html" %}
+{% block content %}
+{% if empty %}
+{% else %}
+<div class="row">
+  <div class="col-xl-4 col-md-6 mb-4">
+    <div class="card border-left-primary shadow h-100 py-2">
+      <div class="card-body">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Model Name</div>
+            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ model }}</div>
+          </div>
+          <div class="col-auto">
+            <i class="fas fa-cog fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-4 col-md-6 mb-4">
+    <div class="card border-left-success shadow h-100 py-2">
+      <div class="card-body">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Number of Data</div>
+            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ n_data }}</div>
+          </div>
+          <div class="col-auto">
+            <i class="fas fa-database fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-4 col-md-6 mb-4">
+    <div class="card border-left-info shadow h-100 py-2">
+      <div class="card-body">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Accuracy</div>
+            <div class="row no-gutters align-items-center">
+              <div class="col-auto">
+                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ acc }}%</div>
+              </div>
+              <div class="col">
+                <div class="progress progress-sm mr-2">
+                  <div class="progress-bar bg-info" role="progressbar" style="width: {{ acc }}%" aria-valuenow="{{acc}}"
+                    aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-auto">
+            <i class="fas fa-crosshairs fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xl-4 col-lg-7">
+    <div class="card shadow mb-4">
+      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">{{ model }} Overview</h6>
+      </div>
+      <div class="card-body">
+        <p id="modelname"></p>
+        <script>
+          var model = JSON.parse('{{ model | tojson }}');
+          var x = "";
+          if (model == "K-Nearest Neighbors") {
+            x = "K-Nearest Neighbors captures the idea of similarity (sometimes called distance, proximity, or closeness) with some mathematics we might have learned in our childhood — calculating the distance between points on a graph. The output of k-NN classification is a class membership and the output of k-NN regression is the property value for the object, which the average of the values of k nearest neighbors."
+          } else if (model == "Support Vector Machine") {
+            x = "Support Vector Machine is algorithm which can be used for both classification or regression challenges. However, it is mostly used in classification problems. In the SVM algorithm, we plot each data item as a point in n-dimensional space (where n is number of features you have) with the value of each feature being the value of a particular coordinate. Afterwards, SVM will find a hyperplane, the decision boundaries to help classifying the data points."
+          } else if (model == "Multi-layer Perceptron") {
+            x = "A multilayer perceptron (MLP) is composed of an input layer to receive the signal, an output layer that makes a decision or prediction about the input, and in between those two, an arbitrary number of hidden layers that are the true computational engine of the MLP. Those hidden layers are trained on a set of input-output pairs and learned to model the correlation between those inputs and outputs. Training involves adjusting the parameters, or the weights and biases, of the model in order to minimize error."
+          } else if (model == "Bayesian Ridge Regression") {
+            x = "The regression formulates using probability distributions rather than point estimates. The response is not estimated as a single value, but is assumed to be drawn from a probability distribution because it is generated from a normal (Gaussian) Distribution characterized by a mean and variance. The aim of Bayesian Ridge Regressor is not to find the single “best” value of the model parameters, but rather to determine the posterior distribution for the model parameters."
+          } else if (model == "Ridge Regression" || model == "Ridge Classifier") {
+            x = "The Ridge regression is a technique which is specialized to analyze multiple regression data which is multicollinearity in nature. The concept multicollinearity occurs when there are high correlations between more than two predicted variables. In this case, one predicted value in multiple regression models is linearly predicted with others to attain a certain level of accuracy."
+          } else if (model == "Decision Tree") {
+            x = "A decision tree is a decision support tool that uses a tree-like graph, in which each internal node represents a “test” on an attribute, each branch represents the outcome of the test, and each leaf node represents a class label. The paths from root to leaf represent classification rules.  Tree based methods empower predictive models with high accuracy, stability and ease of interpretation. Unlike linear models, they also map non-linear relationships quite well."
+          } else if (model == "Gaussian Naive Bayes (NB)") {
+            x = "Gaussian Naive Bayes is the extension of Naive Bayes to real-valued attributes. The continuous values associated with each class are distributed according to a normal (or Gaussian) distribution. The Gaussian is the easiest to work with because you only need to estimate the mean and the standard deviation from your training data."
+          } else if (model == "Linear Discriminant Analysis") {
+            x = "Linear Discriminant Analysis computes the directions (linear discriminants) with purpose to maximize the between-class variance and minimize the within-class variance."
+          } else if (model == "Logistic Regression") {
+            x = "Logistic regression is a statistical method similar to linear regression since it finds an equation that predicts an outcome for a binary variable from one or more response variables. However, unlike linear regression the response variables can be categorical (the variable that has two levels) or continuous."
+          } else if (model == "Random Forest"){
+            x = "Random forests or random decision forests are an ensemble learning method for classification, regression and other tasks that operate by constructing a multitude of decision trees at training time and outputting the class that is the mode of the classes or mean prediction of the individual trees."
+          } else if (model == "Gradient Boosting"){
+            x = "Gradient boosting is a machine learning technique for regression and classification problems, which produces a prediction model in the form of an ensemble of weak prediction models, typically decision trees."
+          } else if (model == "K-Means Clustering"){
+            x = "K-Means clustering is a method of vector quantization, originally from signal processing, that aims to partition n observations into k clusters in which each observation belongs to the cluster with the nearest mean, serving as a prototype of the cluster."
+          };
+          document.getElementById("modelname").innerHTML = x;
+        </script>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-8 col-lg-5">
+    <div class="card shadow mb-4">
+      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        {% if jenis=="ml1" %}
+        <h6 class="m-0 font-weight-bold text-primary">{{ model }} Scatter Plot</h6>
+        {% else %}
+        {% if jenis=="ml2" %}
+        <h6 class="m-0 font-weight-bold text-primary">{{ model }} Results</h6>
+        {% else %}
+        <h6 class="m-0 font-weight-bold text-primary">{{ model }} Confusion Matrix</h6>
+        {% endif%}
+        {% endif %}
+      </div>
+      <div class="card-body">
+        {% if jenis=="ml1" %}
+        <div id="myScatterPerformance"></div>
+        <script>
+          var x = JSON.parse('{{ y_pred | tojson}}');
+          var y = JSON.parse('{{ y_test | tojson}}');
+
+          var trace = {
+            x: x,
+            y: y,
+            type: 'scatter',
+            mode: 'markers',
+            marker: {
+              color: '#1cc88a'
+            }
+          };
+          var data = [trace];
+
+          var layout = {
+            title: {
+              text: 'Plot of y_pred vs y_test'
+            },
+            xaxis: {
+              title: {
+                text: 'y_pred'
+              }
+            },
+            yaxis: {
+              title: {
+                text: 'y_test'
+              }
+            }
+          }
+          Plotly.newPlot('myScatterPerformance', data, layout);
+        </script>
+        {% else %}
+        {% if jenis=="ml2" %}
+        <div id="myClusterPerformance"></div>
+        <script>
+          var data = JSON.parse('{{ data | tojson }}');
+          var mark = JSON.parse('{{ mark | tojson }}');
+          var dat = [{
+            dimensions: data,
+            type: 'splom',
+            marker: mark
+          }];
+          var layout = {
+            height: 675,
+            width: 675,
+            plot_bgcolor: 'rgba(240,240,240, 0.95)',
+            margin: {
+              l: 80,
+              r: 0,
+              t:10,
+              b:100
+            }
+          }
+
+
+          Plotly.newPlot('myClusterPerformance', dat, layout);
+
+        </script>
+        {% else %}
+        <div id="myConfusionPerformance"></div>
+        <script>
+          var matrix = JSON.parse('{{ matrix | tojson }}');
+          var xlabel = JSON.parse('{{ xlabel | tojson }}');
+          var ylabel = JSON.parse('{{ ylabel | tojson }}');
+          var xValues = xlabel;
+          var yValues = ylabel;
+          var zValues = matrix;
+          var maxRow = zValues.map(function (row) { return Math.max.apply(Math, row); });
+          var max = Math.max.apply(null, maxRow);
+          var data = [{
+            x: xValues,
+            y: yValues,
+            z: zValues,
+            type: 'heatmap',
+            colorscale: 'Greens',
+            showscale: false
+          }];
+          var layout = {
+            width: 600,
+            height: 400,
+            annotations: [],
+            xaxis: {
+              ticks: '',
+              side: 'top'
+            },
+            yaxis: {
+              ticks: '',
+              ticksuffix: '',
+              autosize: false
+            },
+            margin: {
+              l: 80,
+              r: 0,
+              t: 50,
+              b: 10
+            }
+          };
+          for (var i = 0; i < yValues.length; i++) {
+            for (var j = 0; j < xValues.length; j++) {
+              var currentValue = zValues[i][j];
+              if (currentValue <= 0.5 * max) {
+                var textColor = 'white';
+              } else {
+                var textColor = 'black';
+              }
+              var result = {
+                xref: 'x1',
+                yref: 'y1',
+                x: xValues[j],
+                y: yValues[i],
+                text: zValues[i][j],
+                font: {
+                  family: 'Arial',
+                  size: 12,
+                  color: 'rgb(50, 171, 96)'
+                },
+                showarrow: false,
+                font: {
+                  color: textColor
+                }
+              };
+              layout.annotations.push(result);
+            }
+          }
+          Plotly.newPlot('myConfusionPerformance', data, layout);
+        </script>
+        {% endif %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

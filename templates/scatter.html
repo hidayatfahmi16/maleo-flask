@@ -1,0 +1,109 @@
+{% extends "layout.html" %}
+{% block content %}
+{% if empty %}
+{% else %}
+<div class="row">
+  <div class="col-lg-6">
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Scatter Plot</h6>
+      </div>
+      <div class="card-body">
+        <p>Scatter plot shows relationship about two variables</p>
+      </div>
+    </div>
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Select Variable</h6>
+      </div>
+      <div class="card-body">
+        <form method="POST" action="/scatter">
+          <div class="row">
+            <div class="col-lg-6">
+              <div id="scatplotvarxloop"></div>
+              <script>
+                var x = '<p class="font-weight-bold">X Variable</p>';
+                var i;
+                var a = '{{ xvar }}';
+                var head = JSON.parse({{ variables | tojson }});
+                for (i = 0; i < head.length; i++) {
+                  if (head[i] == a) {
+                    x += '<div class="form-check"><input class="form-check-input" type="radio" name="exampleRadios1" id="exampleRadios1' + i + '" value="'+head[i]+'" checked><label class="form-check-label" for="exampleRadios1' + i + '">' + head[i] + '</label></div>';
+                  } else {
+                    x += '<div class="form-check"><input class="form-check-input" type="radio" name="exampleRadios1" id="exampleRadios1' + i + '" value="'+head[i]+'"><label class="form-check-label" for="exampleRadios1' + i + '">' + head[i] + '</label></div>';
+                  }
+                }
+                document.getElementById("scatplotvarxloop").innerHTML = x;
+              </script>
+            </div>
+            <div class="col-lg-3">
+              <div id="scatplotvaryloop"></div>
+              <script>
+                var x = '<p class="font-weight-bold">Y Variable</p>';
+                var i;
+                var b = '{{ yvar }}';
+                var head = JSON.parse({{ variables | tojson }});
+                for (i = 0; i < head.length; i++) {
+                  if (head[i] == b) {
+                    x += '<div class="form-check"><input class="form-check-input" type="radio" name="exampleRadios2" id="exampleRadios2' + i + '" value="'+head[i]+'" checked><label class="form-check-label" for="exampleRadios2' + i + '">' + head[i] + '</label></div>';
+                  } else {
+                    x += '<div class="form-check"><input class="form-check-input" type="radio" name="exampleRadios2" id="exampleRadios2' + i + '" value="'+head[i]+'"><label class="form-check-label" for="exampleRadios2' + i + '">' + head[i] + '</label></div>';
+                  }
+
+                }
+                document.getElementById("scatplotvaryloop").innerHTML = x;
+              </script>
+            </div>
+          </div>
+          <hr>
+          <button type="submit" id="btnFetch" class="btn btn-primary">Proceed</button>
+          <div id="spinnerload" class="spinner-border text-success" role="status" style="display: none;">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6 mb-4">
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Scatter Plot</h6>
+      </div>
+      <div class="card-body">
+        <div id="myScatter"></div>
+        <script>
+          var x = JSON.parse({{ datax | tojson }});
+          var y = JSON.parse({{ datay | tojson }});
+          var trace = {
+            x: x,
+            y: y,
+            type: 'scatter',
+            mode: 'markers',
+            marker: {
+              color: '#1cc88a'
+            }
+          };
+          var data = [trace];
+          var layout = {
+            title: {
+              text: 'Plot of {{ xvar }} vs {{ yvar }}'
+            },
+            xaxis: {
+              title: {
+                text: '{{ xvar }}'
+              }
+            },
+            yaxis: {
+              title: {
+                text: '{{ yvar }}'
+              }
+            }
+          }
+          Plotly.newPlot('myScatter', data, layout);    
+        </script>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

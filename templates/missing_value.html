@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+{% block content %}
+{% if empty %}
+{% else %}
+<form action="/null" method="POST" enctype="multipart/form-data">
+  <div class="row">
+    <div class="col-lg-6 mb-4">
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Amount of Missing Data</h6>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            {% for table in null %}
+            {{ table|safe }}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 mb-4">
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Action</h6>
+        </div>
+        <div class="card-body">
+          <div class="container-fluid">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="nullRadios" id="keep1" value="keeporigin">
+              <label class="form-check-label" for="keep1">
+                Keep the origin (Only for Completed Data)
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="nullRadios" id="keep2" value="dropna">
+              <label class="form-check-label" for="keep2">
+                Drop missing values
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="nullRadios" id="keep3" value="simple">
+              <label class="form-check-label" for="keep3">
+                Fill missing values with Most Frequent Data
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="nullRadios" id="keep4" value="knn">
+              <label class="form-check-label" for="keep4">
+                Fill missing values with KNN method
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="nullRadios" id="keep4" value="mice">
+              <label class="form-check-label" for="keep4">
+                Fill missing values with MICE method
+              </label>
+            </div>
+            <br>
+            <button type="submit" id="btnFetch" class="btn btn-primary">Proceed</button>
+            <div id="spinnerload" class="spinner-border text-success" role="status" style="display: none;">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+          <br>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+{% endif %}
+{% endblock %}

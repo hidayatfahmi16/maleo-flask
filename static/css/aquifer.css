@@ -1,0 +1,10 @@
+.icon-aquifer {
+  content: url("aquifer.png");
+  height: 40px;
+  width: 40px;
+}
+.icon-aquifer-warna {
+  content: url("aquifer-warna.png");
+  height: 40px;
+  width: 40px;
+}

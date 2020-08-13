@@ -1,0 +1,99 @@
+{% extends "layout.html" %}
+{% block content %}
+{% if empty %}
+{% else %}
+<hr>
+<form action="/type" method="POST" enctype="multipart/form-data">
+  <div class="row">
+    <div class="col-lg-4 mb-4">
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">What is Categorical?</h6>
+        </div>
+        <div class="card-body">
+          <p>Categorical variables represent types of data which may be divided into groups. Examples of categorical
+            variables are race, sex, age group, and educational level. </p>
+        </div>
+      </div>
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">What is Numerical?</h6>
+        </div>
+        <div class="card-body">
+          <p>Numerical data is a data type expressed in numbers, rather than natural language description. Sometimes
+            called quantitative data,numerical data is always collected in number form. Numerical data differentiates
+            itself with other number form data types with its ability to carry out arithmetic operations with these
+            numbers.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4 mb-4">
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Numerical Variable</h6>
+        </div>
+        <div class="card-body">
+          <div class="container-fluid">
+            <div id="numvarloop"></div>
+            <script>
+              var x = "";
+              var i;
+              var head = JSON.parse({{ variables | tojson }});
+              for (i = 0; i < head.length; i++) {
+                x += '<div class="form-check"><input class="form-check-input" type="checkbox" name="examplebox" id="examplebox' + i + '" value="' + head[i] + '"><label class="form-check-label" for="examplebox' + i + '">' + head[i] + '</label></div>'
+              }
+              document.getElementById("numvarloop").innerHTML = x;
+            </script>
+          </div>
+        </div>
+      </div>
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Datetime Variable</h6>
+        </div>
+        <div class="card-body">
+          <div class="container-fluid">
+            <div id="datevarloop"></div>
+            <script>
+              var x = "";
+              var i;
+              var head = JSON.parse({{ variables | tojson }});
+              for (i = 0; i < head.length; i++) {
+                x += '<div class="form-check"><input class="form-check-input" type="checkbox" name="dateexamplebox" id="examplebox2' + i + '" value="' + head[i] + '"><label class="form-check-label" for="examplebox2' + i + '">' + head[i] + '</label></div>'
+              }
+              document.getElementById("datevarloop").innerHTML = x;
+            </script>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4 mb-4">
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Categorical Variable</h6>
+        </div>
+        <div class="card-body">
+          <div class="container-fluid">
+            <div id="catvarloop"></div>
+            <script>
+              var x = "";
+              var i;
+              var head = JSON.parse({{ variables | tojson }});
+              for (i = 0; i < head.length; i++) {
+                x += '<div class="form-check"><input class="form-check-input" type="checkbox" name="catexamplebox" id="examplebox3' + i + '" value="' + head[i] + '"><label class="form-check-label" for="examplebox3' + i + '">' + head[i] + '</label></div>'
+              }
+              document.getElementById("catvarloop").innerHTML = x;
+            </script>
+            <hr>
+            <button type="submit" id="btnFetch" class="btn btn-primary">Proceed</button>
+            <div id="spinnerload" class="spinner-border text-success" role="status" style="display: none;">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+{% endif %}
+{% endblock %}

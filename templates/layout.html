@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>Maleo 1.0</title>
+  <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link
+    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    rel="stylesheet">
+  <link href="/static/css/sb-admin-2.css" rel="stylesheet">
+  <link href="/static/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+  <link href="/static/css/aquifer.css" rel="stylesheet">
+  <script src="/static/js/plotly-latest.min.js"></script>
+</head>
+
+<body id="page-top">
+  <div id="wrapper">
+
+    <ul class="navbar-nav bg-gradient-success sidebar sidebar-dark accordion" id="accordionSidebar">
+
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+        <div class="sidebar-brand-icon">
+          <i class="icon-aquifer"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">MALEO<sup></sup></div>
+      </a>
+      <hr class="sidebar-divider my-0">
+      <hr class="sidebar-divider">
+      <li id="loadwhiteicon" class="nav-item">
+        <a class="nav-link" href="/">
+          <i class="fas fa-file"></i>
+          <span>Load Data</span></a>
+      </li>
+      <hr class="sidebar-divider">
+      <li id="viewwhiteiconparent" class="nav-item">
+        <a id="viewwhiteicon" class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne"
+          aria-expanded="true" aria-controls="collapseOne">
+          <i class="fas fa-history"></i>
+          <span>Overview</span>
+        </a>
+        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <a id="types" class="collapse-item" href="/type">Variable Types</a>
+            <a id="nullvalues" class="collapse-item" href="/null">Missing Values</a>
+          </div>
+        </div>
+      </li>
+      <li id="edawhiteiconparent" class="nav-item">
+        <a id="edawhiteicon" class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+          aria-expanded="true" aria-controls="collapseTwo">
+          <i class="fas fa-sitemap"></i>
+          <span>Data Analysis</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <a id="descstats" class="collapse-item" href="/stats">Descriptive Statistic</a>
+            <a id="boxplot" class="collapse-item" href="/box">Box Plot</a>
+            <a id="histogram" class="collapse-item" href="/hist">Histogram</a>
+            <a id="pairplot" class="collapse-item" href="/pair">Pair Plot</a>
+            <a id="scatterplot" class="collapse-item" href="/scatter">Scatter Plot</a>
+            <a id="heatmap" class="collapse-item" href="/heat">Heat Map</a>
+          </div>
+        </div>
+      </li>
+      <li id="mlwhiteiconparent" class="nav-item">
+        <a id="mlwhiteicon" class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+          aria-expanded="true" aria-controls="collapseUtilities">
+          <i class="fas fa-fw fa-cogs"></i>
+          <span>Machine Learning</span>
+        </a>
+        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <a id="variableselection" class="collapse-item" href="/var">Variable Selection</a>
+            <a id="modelselection" class="collapse-item" href="/model">Model Selection</a>
+            <a id="modelperformance" class="collapse-item" href="/perf">Model Performance</a>
+            <a id="predictnewdata" class="collapse-item" href="/predict">Prediction</a>
+          </div>
+        </div>
+      </li>
+      <hr class="sidebar-divider">
+      <li id="aboutwhiteicon" class="nav-item">
+        <a class="nav-link" href="/about">
+          <i class="fas fa-user"></i>
+          <span>About</span></a>
+      </li>
+      <script>
+        var page = '{{ menu }}';
+        var page_parents = "main";
+
+        if (page == "var" || page == "model" || page == "perf" || page == "predict") {
+          page_parents = "ml";
+        } else if (page == "stats" || page == "box" || page == "pair" || page == "hist" || page == "scatter" || page == "heat") {
+          page_parents = "eda";
+        } else if (page == "type" || page == "null") {
+          page_parents = "view";
+        }
+
+        if (page_parents == "ml") {
+          document.getElementById("collapseUtilities").className = "collapse show";
+          document.getElementById("mlwhiteicon").className = "nav-link";
+          document.getElementById("mlwhiteiconparent").className = "nav-item active";
+          if (page == "var") {
+            document.getElementById("variableselection").className = "collapse-item active";
+          } else if (page == "model") {
+            document.getElementById("modelselection").className = "collapse-item active";
+          } else if (page == "perf") {
+            document.getElementById("modelperformance").className = "collapse-item active";
+          } else {
+            document.getElementById("predictnewdata").className = "collapse-item active";
+          }
+        } else if (page_parents == "eda") {
+          document.getElementById("collapseTwo").className = "collapse show";
+          document.getElementById("edawhiteicon").className = "nav-link";
+          document.getElementById("edawhiteiconparent").className = "nav-item active";
+          if (page == "stats") {
+            document.getElementById("descstats").className = "collapse-item active";
+          } else if (page == "box") {
+            document.getElementById("boxplot").className = "collapse-item active";
+          } else if (page == "hist") {
+            document.getElementById("histogram").className = "collapse-item active";
+          } else if (page == "pair") {
+            document.getElementById("pairplot").className = "collapse-item active";
+          } else if (page == "scatter") {
+            document.getElementById("scatterplot").className = "collapse-item active";
+          } else {
+            document.getElementById("heatmap").className = "collapse-item active";
+          }
+        } else if (page_parents == "view") {
+          document.getElementById("collapseOne").className = "collapse show";
+          document.getElementById("viewwhiteicon").className = "nav-link";
+          document.getElementById("viewwhiteiconparent").className = "nav-item active";
+          if (page == "type") {
+            document.getElementById("types").className = "collapse-item active";
+          } else if (page == "null") {
+            document.getElementById("nullvalues").className = "collapse-item active";
+          }
+        } else {
+          if (page == "main") {
+            document.getElementById("dashwhiteicon").className = "nav-item active";
+          } else if (page == "load") {
+            document.getElementById("loadwhiteicon").className = "nav-item active";
+          } else if (page == "about"){
+            document.getElementById("aboutwhiteicon").className = "nav-item active";
+          }
+        }
+
+      </script>
+      <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+      </div>
+
+    </ul>
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+          <!-- Topbar Navbar -->
+          <div class="container-fluid mr-auto ml-md-2 my-2 my-md-0 mw-100">
+            <h1 class="h3 text-gray-800">{{ namamenu }}</h1>
+          </div>
+          <ul class="navbar-nav ml-auto">
+            <h8>{{ user }}</h8>
+          </ul>
+        </nav>
+
+        <div class="container-fluid">
+          {% with messages = get_flashed_messages() %}
+          {% if messages %}
+
+          {% for message in messages %}
+          <div class="alert alert-danger" role="alert">
+            {{ message }}
+          </div>
+          {% endfor %}
+          {% endif %}
+          {% endwith %}
+          {% block content %}{% endblock %}
+        </div>
+
+      </div>
+
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright &copy; Maleo 2020</span>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+
+  </div>
+
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+  <script src="/static/vendor/jquery/jquery.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $("#btnFetch").click(function () {
+        // disable button
+        $(this).hide()
+        $("#spinnerload").show()
+      });
+      $("#btnFetch2").click(function () {
+        // disable button
+        $(this).hide()
+        $("#spinnerload2").show()
+      });
+    });
+  </script>
+  <!-- Bootstrap core JavaScript-->
+  
+  <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="/static/js/sb-admin-2.min.js"></script>
+
+</body>
+
+</html>

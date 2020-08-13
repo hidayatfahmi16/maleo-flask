@@ -1,0 +1,92 @@
+{% extends "layout.html" %}
+{% block content %}
+{% if empty %}
+{% else %}
+<form action="/var" method="POST" enctype="multipart/form-data">
+  <div class="row">
+    <div class="col-lg-4 mb-4">
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Select Options</h6>
+        </div>
+        <div class="card-body">
+          <p>Select the variable you want to proceed in machine learning. Predictor variable (X variable) are the
+            independent variables, while response variable (Y variable) is the dependent variable. Also choose the
+            method of machine learning you want to perform</p>
+        </div>
+      </div>
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Select Methods</h6>
+        </div>
+        <div class="card-body">
+          <div class="container-fluid">
+            <h6>Machine Learning Methods</h6>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="mlRadios" id="Regression" value="ml1">
+              <label class="form-check-label" for="Regression">
+                Regression
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="mlRadios" id="Clustering" value="ml2">
+              <label class="form-check-label" for="Clustering">
+                Clustering
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="mlRadios" id="Classification" value="ml3">
+              <label class="form-check-label" for="Classification">
+                Classification
+              </label>
+            </div>
+            <br>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-8 mb-4">
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Select Predictor and Response</h6>
+        </div>
+        <div class="card-body">
+          <div class="container-fluid">
+            <h6>Predictor Variable</h6>
+            <div id="predvarloop"></div>
+            <script>
+              var x = "";
+              var i;
+              var head = JSON.parse({{ variables | tojson }});
+              for (i = 0; i < head.length; i++) {
+                x += '<div class="form-check"><input class="form-check-input" type="checkbox" name="examplebox" id="examplebox' + i + '" value="' + head[i] + '"><label class="form-check-label" for="examplebox' + i + '">' + head[i] + '</label></div>'
+              }
+              document.getElementById("predvarloop").innerHTML = x;
+            </script>
+            <hr>
+          </div>
+          <div class="container-fluid">
+            <h6>Response Variable (ignore if clustering)</h6>
+            <div id="resvarloop"></div>
+            <script>
+              var x = "";
+              var i;
+              var head = JSON.parse({{ variables | tojson }});
+              for (i = 0; i < head.length; i++) {
+                x += '<div class="form-check"><input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios' + i + '" value="' + head[i] + '" checked><label class="form-check-label" for="exampleRadios' + i + '">' + head[i] + '</label></div>'
+              }
+              document.getElementById("resvarloop").innerHTML = x;
+            </script>
+            <hr>
+            <button type="submit" id="btnFetch" class="btn btn-primary">Proceed</button>
+          <div id="spinnerload" class="spinner-border text-success" role="status" style="display: none;">
+            <span class="sr-only">Loading...</span>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+{% endif %}
+{% endblock %}

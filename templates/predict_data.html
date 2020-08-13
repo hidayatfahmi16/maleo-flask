@@ -1,0 +1,99 @@
+{% extends "layout.html" %}
+{% block content %}
+{% if empty %}
+{% else %}
+<div class="row">
+    <div class="col-lg-4 mb-4">
+        <form action="/predict" method="POST" enctype="multipart/form-data">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Upload New Data</h6>
+                </div>
+                <div class="card-body">
+                    <p>Make sure your data has same column with previous data.</p>
+                    <div class="form-group">
+                        <input type="file" class="form-control-user form-control-sm" id="exampleInputFile2"
+                            name="predictCSV" placeholder="InputFile">
+                        <hr>
+                        <div class="text-center">
+                            <button type="submit" id="btnFetch" class="btn btn-primary">Proceed</button>
+                            <div id="spinnerload" class="spinner-border text-success" role="status"
+                                style="display: none;">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% if upload==True %}
+            <div class="card shadow mb-4">
+                <div class="card-body">
+                    <div class="text-center">
+                        <a href="/downloadcsv" class="btn btn-success btn-icon-split btn-sm">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-download"></i>
+                            </span>
+                            <span class="text">Save Results</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            {% endif %}
+        </form>
+    </div>
+    {% if desc!=None %}
+    <div class="col-lg-8 mb-4">
+        <div class="card shadow mb-4">
+            <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button"
+                aria-expanded="true" aria-controls="collapseCardExample">
+                <h6 class="m-0 font-weight-bold text-primary">Descriptive Statistic</h6>
+            </a>
+            <div class="collapse" id="collapseCardExample">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        {% for table in desc %}
+                        {{ table|safe }}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card shadow mb-4">
+            <a href="#collapseCardExample2" class="d-block card-header py-3" data-toggle="collapse" role="button"
+                aria-expanded="true" aria-controls="collapseCardExample">
+                <h6 class="m-0 font-weight-bold text-primary">Pairplot</h6>
+            </a>
+            <!-- Card Content - Collapse -->
+            <div class="collapse" id="collapseCardExample2">
+                <div class="card-body">
+                    <img src="/plothist.png" alt="my pair plot" width=650 height=450>
+                </div>
+            </div>
+        </div>
+        <div class="card shadow mb-4">
+            <a href="#collapseCardExample3" class="d-block card-header py-3" data-toggle="collapse" role="button"
+                aria-expanded="true" aria-controls="collapseCardExample">
+                <h6 class="m-0 font-weight-bold text-primary">Results Distribution</h6>
+            </a>
+            <!-- Card Content - Collapse -->
+            <div class="collapse" id="collapseCardExample3">
+                <div class="card-body">
+                    {% if kind=="ml1" %}
+                    <img src="/plotreg.png" alt="my reg plot" width=650 height=450>
+                    {% else %}
+                    {% if kind=="ml2" %}
+                    <img src="/plotclu.png" alt="my clu plot" width=650 height=450>
+                    {% else %}
+                    <img src="/plotclf.png" alt="my clf plot" width=650 height=450>
+                    {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}
