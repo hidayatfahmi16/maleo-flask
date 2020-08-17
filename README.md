@@ -15,3 +15,6 @@ This application use [SB Admin 2 Bootstrap](https://startbootstrap.com/themes/sb
 
 # License 
 This application use [MIT License](https://opensource.org/licenses/MIT)
+
+# Packaged Apps
+This app also have electron-packaged version [here](https://www.researchgate.net/project/MALEO-MAchine-LEarning-for-petrOleum) 
